@@ -96,7 +96,7 @@ Eigen线性">
 搭建流程
 win10 和 Ubuntu 16.04 双系统
 Eigen线性">
-<meta property="og:updated_time" content="2018-04-08T02:29:32.000Z">
+<meta property="og:updated_time" content="2018-04-08T02:32:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="视觉环境搭建">
 <meta name="twitter:description" content="写在前面的废话最近终于确定了毕业论文的题目，还是关于视觉和三维重建，于是兴冲冲地着手搭起工作环境。距离上一篇博客发布已经过去一年多了，实在很是我的风格。随便谷歌一下，有很多基于高博《视觉SLAM十四讲》的安装教程。可惜时过境迁，各种版本更新，想要完整搭好环境还是费了一番心力。谨以此篇，献给过两天可能就把系统搞崩溃的自己吧。
@@ -324,7 +324,7 @@ Eigen线性">
 <p>2) 插入U盘，查看盘符。终端下代码为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil list</div></pre></td></tr></table></figure>
 <p>比如我的叫disk3</p>
-<p>3）将ISO转换为IMG文件，复制内容到剪贴板。该命令会生成一个.IMG的磁盘镜像文件，但是MAC OSX会默认追加一个的.dmg，即生成的文件后缀是.img.dmg，这个后缀没关系，忽略可以。</p>
+<p>3) 将ISO转换为IMG文件，复制内容到剪贴板。该命令会生成一个.IMG的磁盘镜像文件，但是MAC OSX会默认追加一个的.dmg，即生成的文件后缀是.img.dmg，这个后缀没关系，忽略可以。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hdiutil convert -format UDRW -o /path/to/generate/img/file /path/to/your/iso/file</div></pre></td></tr></table></figure>
 <p>4) 卸载U盘，准备写入镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ diskutil unmountDisk /dev/disk3</div><div class="line"></div><div class="line">Unmount of all volumes on disk1 was successfultDisk</div></pre></td></tr></table></figure>
