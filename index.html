@@ -310,54 +310,45 @@
 </ol>
 <h3 id="1-win10-和-Ubuntu-16-04-双系统"><a href="#1-win10-和-Ubuntu-16-04-双系统" class="headerlink" title="1. win10 和 Ubuntu 16.04 双系统"></a>1. win10 和 Ubuntu 16.04 双系统</h3><p>在这里强调Ubuntu的版本其实不必要，但还是要选择适合自己设备的版本。比如《视觉SLAM》推荐的14.04版，装到我的ThinkPad X1 Carbon 5th 上就变板砖了——网卡驱动不适配，上不了网。你猜我是怎么发现的。具体流程如下：</p>
 <ul>
-<li><p>压缩一部分硬盘空间给新系统：</p>
-<p>  许多教程里推荐40G以上，想想毕竟是毕业设计任重道远，此处我分了100G左右。方法是：右键“此电脑”-&gt;“管理”-&gt;”磁盘管理“-&gt;选个空间大的磁盘右键-&gt;”压缩卷“-&gt;输入要压缩的大小，稍微等几秒，这部分磁盘空间变成”未分配“，就OK了。</p>
-</li>
-<li><p>准备一个U盘做启动盘：</p>
-<p>  据说要大于8G。很多教程推荐windows下安装一个UltraISO软件刻录Ubuntu镜像，然后我就很愉快的试了一下并失败了，报错mount CD-ROM。于是就投入我的大Mac怀抱，电脑多了果然没坏处。MacOS下用dd命令制作启动盘的方法如下：</p>
-<p>  1) 下载Ubuntu镜像</p>
-<p>  2) 插入U盘，查看盘符。终端下代码为：</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil list</div></pre></td></tr></table></figure>
-<p>  比如我的叫disk3</p>
-<p>  3）将ISO转换为IMG文件，复制内容到剪贴板。该命令会生成一个.IMG的磁盘镜像文件，但是MAC OSX会默认追加一个的.dmg，即生成的文件后缀是.img.dmg，这个后缀没关系，忽略可以。</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hdiutil convert -format UDRW -o /path/to/generate/img/file /path/to/your/iso/file</div></pre></td></tr></table></figure>
-</li>
+<li>压缩一部分硬盘空间给新系统：</li>
 </ul>
-<pre><code>4) 卸载U盘，准备写入镜像
-
+<p>许多教程里推荐40G以上，想想毕竟是毕业设计任重道远，此处我分了100G左右。方法是：右键“此电脑”-&gt;“管理”-&gt;”磁盘管理“-&gt;选个空间大的磁盘右键-&gt;”压缩卷“-&gt;输入要压缩的大小，稍微等几秒，这部分磁盘空间变成”未分配“，就OK了。</p>
+<ul>
+<li>准备一个U盘做启动盘：</li>
+</ul>
+<p>据说要大于8G。很多教程推荐windows下安装一个UltraISO软件刻录Ubuntu镜像，然后我就很愉快的试了一下并失败了，报错mount CD-ROM。于是就投入我的大Mac怀抱，电脑多了果然没坏处。MacOS下用dd命令制作启动盘的方法如下：</p>
+<p>1) 下载Ubuntu镜像</p>
+<p>2) 插入U盘，查看盘符。终端下代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil list</div></pre></td></tr></table></figure>
+<p>比如我的叫disk3</p>
+<p>3）将ISO转换为IMG文件，复制内容到剪贴板。该命令会生成一个.IMG的磁盘镜像文件，但是MAC OSX会默认追加一个的.dmg，即生成的文件后缀是.img.dmg，这个后缀没关系，忽略可以。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hdiutil convert -format UDRW -o /path/to/generate/img/file /path/to/your/iso/file</div></pre></td></tr></table></figure>
+<p>4) 卸载U盘，准备写入镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ diskutil unmountDisk /dev/disk3</div><div class="line"></div><div class="line">Unmount of all volumes on disk1 was successfultDisk</div></pre></td></tr></table></figure>
-
-
-5) 镜像写入
-
+<p>5) 镜像写入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo dd if=ubuntu.img.dmg of=/dev/disk3 bs=1m</div></pre></td></tr></table></figure>
-
-
-此处要是写错了盘符就哭去吧。
-
-6) 漫长的等待
-
-我的U盘大概写了30分钟，总之就是很久。然后弹出一个报错窗口，大概是说”您的电脑读不了这个U盘“，嗯，恭喜你的Linux启动盘已经做好了。
-</code></pre><ul>
-<li><p>安装双系统</p>
-<p>  其实在安装前还执行了关闭win10的快速启动，进入BIOS关掉Network Secure等步骤，但是我已经忘了，溜了溜了。推荐大家关掉win10的BitLocker，否则每次进入win10要输入一串48位的解锁码。<br>  插上U盘，重启电脑，选择U盘启动，安装Ubuntu…此处省略一万步。</p>
-</li>
+<p>此处要是写错了盘符就哭去吧。</p>
+<p>6) 漫长的等待</p>
+<p>我的U盘大概写了30分钟，总之就是很久。然后弹出一个报错窗口，大概是说”您的电脑读不了这个U盘“，嗯，恭喜你的Linux启动盘已经做好了。</p>
+<ul>
+<li>安装双系统</li>
 </ul>
+<p>其实在安装前还执行了关闭win10的快速启动，进入BIOS关掉Network Secure等步骤，但是我已经忘了，溜了溜了。推荐大家关掉win10的BitLocker，否则每次进入win10要输入一串48位的解锁码。<br>插上U盘，重启电脑，选择U盘启动，安装Ubuntu…此处省略一万步。</p>
 <h3 id="2-Eigen线性代数库"><a href="#2-Eigen线性代数库" class="headerlink" title="2. Eigen线性代数库"></a>2. Eigen线性代数库</h3><p>这个是G2O的依赖库，没有它就装不好G2O。很多教程里推荐的安装方法是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install libeigen3-dev</div></pre></td></tr></table></figure>
 <p>这个安装上最新版本的，有坑，你猜我怎么知道的。此处推荐安装Eigen 3.3.1版本，方法为：</p>
 <p>1） 官网下载Eigen 3.3.1 tar.bz2 格式压缩文件。<br>文件名：eigen-eigen-f562a193118d.tar.bz2</p>
 <p>2）将文件解压到/usr/local/include目录下，在/usr/local/include目录下得到文件eigen-eigen-f562a193118d</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo tar -xvjf eigen-eigen-f562a193118d.tar.bz2  -C /usr/local/include</div><div class="line">``` </div><div class="line">3）更改文件名为eigen3</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo tar -xvjf eigen-eigen-f562a193118d.tar.bz2  -C /usr/local/include</div><div class="line">``` </div><div class="line"></div><div class="line">3）更改文件名为eigen3</div></pre></td></tr></table></figure>
 <p>$ sudo mv   /usr/local/include/eigen-eigen-f562a193118d  /usr/local/include/eigen3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">至此Eigen就装好了，想测试一下？如果后面能装好G2O就说明它是好的。</div><div class="line"></div><div class="line">### 3. Sophus李代数库</div><div class="line">Eigen库提供了几何模块，但是没有提供李代数的支持。一个较好的李代数库是由Strasdat维护的Sophus库。Sophus库支持三维运动的SO(3)、SE(3)，此外还支持二维运动的SO(2)、SE(2)和相似变换Sim(3)等内容。它是直接在Eigen库基础上开发的，因此我们不需要安装额外的依赖库。额，我也不知道为啥装这个，反正挺简单的就装着玩儿呗。步骤如下：</div></pre></td></tr></table></figure></p>
 <p>$ git clone <a href="http://github.com/strasdat/Sophus.git" target="_blank" rel="external">http://github.com/strasdat/Sophus.git</a></p>
-<p>$ cd XXXX                 #进入Sophus库文件目录下<br>$ mkdir build             #新建build文件夹<br>$ cd build                #进入build文件夹<br>$ cmake ..                #build上一层目录下执行CMake命令<br>$ make                    #编译<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 4. OpenCV视觉库</div><div class="line">这个也是坑多到我都忘了。。。总之就是没有安装最新版本，下文借鉴于</div><div class="line">[一篇教程](http://www.linuxdiyf.com/linux/30410.html) 。</div><div class="line"></div><div class="line"></div><div class="line">1）官网下载 opencv-3.2.0.zip 解压。进入目录</div></pre></td></tr></table></figure></p>
+<p>$ cd XXXX                 #进入Sophus库文件目录下<br>$ mkdir build             #新建build文件夹<br>$ cd build                #进入build文件夹<br>$ cmake ..                #build上一层目录下执行CMake命令<br>$ make                    #编译<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 4. OpenCV视觉库</div><div class="line">这个也是坑多到我都忘了。。。总之就是没有安装最新版本，下文借鉴于</div><div class="line">[一篇教程](http://www.linuxdiyf.com/linux/30410.html) 。</div><div class="line"></div><div class="line">1）官网下载 opencv-3.2.0.zip 解压。进入目录</div></pre></td></tr></table></figure></p>
 <p>$ unzip opencv-3.2.0.zip<br>$ cd ~/opencv-3.2.0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">2）安装OpenCV所需的库</div></pre></td></tr></table></figure></p>
 <p>$ sudo apt-get install build-essential<br>$ sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">3) 编译opencv</div></pre></td></tr></table></figure></p>
 <p>$ cd ~/opencv-3.2.0<br>$ mkdir release<br>$ cd release<br>$ cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..<br>$ make<br>$ sudo make install<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">据说身在墙内会遇到ippicv_linux_20151201.tgz下载不成功的问题，可以到网上找到这个文件，下载后放入opencv-3.2.0目录下的/3rdparty/ippicv/downloads/linux-8b449a536a2157bcad08a2b9f266828b里面就可以了。然后继续从第4行开始执行，直至结束。</div><div class="line"></div><div class="line">4) 测试opencv(C++)</div><div class="line">	</div><div class="line">a. 创建工作目录</div></pre></td></tr></table></figure></p>
 <p>$ mkdir ~/opencv-lena<br>$ cd ~/opencv-lena<br>$ gedit DisplayImage.cpp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">b. 编辑如下代码</div></pre></td></tr></table></figure></p>
 <p>#include <stdio.h></stdio.h></p>
-<p>#include <opencv2 opencv.hpp=""><br>using namespace cv;<br>int main(int argc, char** argv )<br>{<br>if ( argc != 2 )<br>{<br>printf(“usage: DisplayImage.out <image_path>\n”);<br>return -1;<br>}<br>Mat image;<br>image = imread( argv[1], 1 );<br>if ( !image.data )<br>{<br>printf(“No image data \n”);<br>return -1;<br>}<br>namedWindow(“Display Image”, WINDOW_AUTOSIZE );<br>imshow(“Display Image”, image);<br>waitKey(0);<br>return 0;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c. 创建CMake编译文件</div></pre></td></tr></table></figure></image_path></opencv2></p>
+<p>#include <opencv2 opencv.hpp=""><br>using namespace cv;<br>int main(int argc, char** argv )<br>{<br>if ( argc != 2 )<br>{<br>printf(“usage: DisplayImage.out <image_path>\n”);<br>return -1;<br>}<br>Mat image;<br>image = imread( argv[1], 1 );<br>if ( !image.data )<br>{<br>printf(“No image data \n”);<br>return -1;<br>}<br>namedWindow(“Display Image”, WINDOW_AUTOSIZE );<br>imshow(“Display Image”, image);<br>waitKey(0);<br>return 0;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">c. 创建CMake编译文件</div></pre></td></tr></table></figure></image_path></opencv2></p>
 <p>$ gedit CMakeLists.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">写入如下内容</div></pre></td></tr></table></figure></p>
 <p>cmake_minimum_required(VERSION 2.8)<br>project( DisplayImage )<br>find_package( OpenCV REQUIRED )<br>add_executable( DisplayImage DisplayImage.cpp )<br>target_link_libraries( DisplayImage ${OpenCV_LIBS} )<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d. 编译</div></pre></td></tr></table></figure></p>
 <p>$ cd ~/opencv-lena<br>$ cmake .<br>$ make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">e. 执行</div><div class="line"></div><div class="line">此时opencv-lena文件夹中已经产生了可执行文件DisplayImage，下载lena.jpg放在opencv-lena下，运行</div></pre></td></tr></table></figure></p>
@@ -368,7 +359,7 @@
 <p>$ ./g2o_viewer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 6. PCL点云库</div><div class="line">这个不是很难，主要麻烦在一些依赖库。以下内容引自[又一篇教程](https://larrylisky.com/2016/11/03/point-cloud-library-on-ubuntu-16-04-lts/)。</div><div class="line"></div><div class="line">1) 下载pcl</div></pre></td></tr></table></figure></p>
 <p>$ git clone <a href="https://github.com/PointCloudLibrary/pcl.git" target="_blank" rel="external">https://github.com/PointCloudLibrary/pcl.git</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">2) 准备一些依赖库</div></pre></td></tr></table></figure></p>
 <p>$ sudo apt-get update<br>$ sudo apt-get install git build-essential linux-libc-dev<br>$ sudo apt-get install cmake cmake-gui<br>$ sudo apt-get install libusb-1.0-0-dev libusb-dev libudev-dev<br>$ sudo apt-get install mpi-default-dev openmpi-bin openmpi-common<br>$ sudo apt-get install libflann1.8 libflann-dev<br>$ sudo apt-get install libeigen3-dev<br>$ sudo apt-get install libboost-all-dev<br>$ sudo apt-get install libvtk5.10-qt4 libvtk5.10 libvtk5-dev<br>$ sudo apt-get install libqhull* libgtest-dev<br>$ sudo apt-get install freeglut3-dev pkg-config<br>$ sudo apt-get install libxmu-dev libxi-dev<br>$ sudo apt-get install mono-complete<br>$ sudo apt-get install qt-sdk openjdk-8-jdk openjdk-8-jre<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">我其实没有全部都装，比如libeigen3-dev，很明显咱们已经装过了Eigen。但是，为了完整性，其实是我不想挑选了，总之大家择其善者而从之吧。</div><div class="line"></div><div class="line">3) 安装pcl</div></pre></td></tr></table></figure></p>
-<p>$ cd pcl<br>$ mkdir release<br>$ cd release<br>$ cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \<br>   -DBUILD_GPU=ON -DBUILD_apps=ON -DBUILD_examples=ON \<br>   -DCMAKE_INSTALL_PREFIX=/usr ..<br>$ make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这一步得等个几十分钟。。。然后执行以下</div></pre></td></tr></table></figure></p>
+<p>$ cd pcl<br>$ mkdir release<br>$ cd release<br>$ cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \<br>   -DBUILD_GPU=ON -DBUILD_apps=ON -DBUILD_examples=ON \<br>   -DCMAKE_INSTALL_PREFIX=/usr ..<br>$ make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这一步得等个几十分钟。。。然后执行以下</div></pre></td></tr></table></figure></p>
 <p>$ sudo make install<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">4) 测试pcl</div><div class="line"></div><div class="line">以下内容是原创，鼓掌。</div><div class="line"></div><div class="line">a. 创建工作目录</div></pre></td></tr></table></figure></p>
 <p>$ mkdir ~/pcl-test<br>$ cd ~/pcl-test<br>$ gedit pcd_write.cpp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">b. 编辑如下代码</div></pre></td></tr></table></figure></p>
 <p>#include <iostream></iostream></p>
@@ -379,7 +370,7 @@
 <p>  for (size_t i = 0; i &lt; cloud.points.size (); ++i)<br>  {<br>    cloud.points[i].x = 1024 <em> rand () / (RAND_MAX + 1.0f);<br>    cloud.points[i].y = 1024 </em> rand () / (RAND_MAX + 1.0f);<br>    cloud.points[i].z = 1024 * rand () / (RAND_MAX + 1.0f);<br>  }</p>
 <p>  pcl::io::savePCDFileASCII (“test_pcd.pcd”, cloud);<br>  std::cerr &lt;&lt; “Saved “ &lt;&lt; cloud.points.size () &lt;&lt; “ data points to test_pcd.pcd.” &lt;&lt; std::endl;</p>
 <p>  for (size_t i = 0; i &lt; cloud.points.size (); ++i)<br>    std::cerr &lt;&lt; “    “ &lt;&lt; cloud.points[i].x &lt;&lt; “ “ &lt;&lt; cloud.points[i].y &lt;&lt; “ “ &lt;&lt; cloud.points[i].z &lt;&lt; std::endl;</p>
-<p>  return (0);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c. 创建CMake编译文件</div></pre></td></tr></table></figure></p>
+<p>  return (0);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">c. 创建CMake编译文件</div></pre></td></tr></table></figure></p>
 <p>$ gedit CMakeLists.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">写入如下内容</div></pre></td></tr></table></figure></p>
 <p>cmake_minimum_required(VERSION 2.6 FATAL_ERROR)<br>project(MY_GRAND_PROJECT)<br>find_package(PCL 1.3 REQUIRED COMPONENTS common io)<br>include_directories(${PCL_INCLUDE_DIRS})<br>link_directories(${PCL_LIBRARY_DIRS})<br>add_definitions(${PCL_DEFINITIONS})<br>add_executable(pcd_write_test pcd_write.cpp)<br>target_link_libraries(pcd_write_test ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d. 编译</div></pre></td></tr></table></figure></p>
 <p>$ cd ~/pcl-test<br>$ mkdir build<br>$ cd build<br>$ cmake ..<br>$ make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">e. 执行</div><div class="line"></div><div class="line">此时pcl-test/build文件夹中已经产生了可执行文件pcd_write_test，运行</div></pre></td></tr></table></figure></p>
