@@ -96,7 +96,7 @@ Eigen线性">
 搭建流程
 win10 和 Ubuntu 16.04 双系统
 Eigen线性">
-<meta property="og:updated_time" content="2018-04-12T20:29:39.000Z">
+<meta property="og:updated_time" content="2018-04-12T21:17:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="视觉环境搭建">
 <meta name="twitter:description" content="写在前面的废话最近终于确定了毕业论文的题目，还是关于视觉和三维重建，于是兴冲冲地着手搭起工作环境。距离上一篇博客发布已经过去一年多了，实在很是我的风格。随便谷歌一下，有很多基于高博《视觉SLAM十四讲》的安装教程。可惜时过境迁，各种版本更新，想要完整搭好环境还是费了一番心力。谨以此篇，献给过两天可能就把系统搞崩溃的自己吧。
@@ -396,7 +396,7 @@ Eigen线性">
 <p>注意有效版本是：8ba8a03f7863e1011e3270bb73c8ed9383ccc2a2 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ cd g2o</div><div class="line">$ git log |grep 8ba8a*</div><div class="line">$ git checkout 8ba8a03f7863e1011e3270bb73c8ed9383ccc2a2</div><div class="line">$ sudo apt-get install libqt4-dev</div><div class="line">$ sudo apt-get install qt4-qmake</div><div class="line">$ sudo apt-get install libqglviewer-dev</div><div class="line">$ sudo apt-get install libsuitesparse-dev</div><div class="line">$ mkdir build</div><div class="line">$ cd build</div><div class="line">$ cmake ../</div><div class="line">$ make -j8</div></pre></td></tr></table></figure>
 <p>3) 测试运行g2o_viewer</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./g2o_viewer</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># cd 到 bin 文件夹</div><div class="line">$ cd ..</div><div class="line">$ cd bin</div><div class="line">$ ./g2o_viewer</div></pre></td></tr></table></figure>
 <h3 id="6-PCL点云库"><a href="#6-PCL点云库" class="headerlink" title="6. PCL点云库"></a>6. PCL点云库</h3><p>这个不是很难，主要麻烦在一些依赖库。以下内容引自<a href="https://larrylisky.com/2016/11/03/point-cloud-library-on-ubuntu-16-04-lts/" target="_blank" rel="external">又一篇教程</a>。</p>
 <p>1) 下载pcl</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/PointCloudLibrary/pcl.git</div></pre></td></tr></table></figure>
